@@ -1,5 +1,9 @@
 import os
-from flask import Flask
+from flask import (
+    Flask, flash, render_template, 
+    redirect, request, session, url_for)
+from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 # when app is deployed on Heroku, path to env.py will not exist
 if os.path.exists("env.py"):
     import env
@@ -7,10 +11,17 @@ if os.path.exists("env.py"):
 
 app = Flask(__name__)
 
+app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+app.secret_key = os.environ.get("SECRET_KEY")
+
+mongo = PyMongo(app)
 
 @app.route("/")  # "/" refers to default route for app
-def hello():
-    return "Hello World... again!"
+@app.route("/get_tasks")  # either URL suffix will trigger get_tasks function
+def get_tasks():
+    tasks = mongo.db.tasks.find()  # access tasks collection in mongo database and return all documents
+    return render_template("tasks.html", tasks=tasks)  # pass tasks variable through to the template so it can display this data
 
 
 # define how and where to run app
