@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- favicon icon in browser tab -->
     <link rel="icon" href="https://img.icons8.com/metro/26/000000/system-task.png">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" 
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" type="text/css"/>
+    <!-- materialize css -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
+    <!-- custom css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css' ) }}" type="text/css">
+    {% block styles %}
+    {% endblock %}
     <title>Task Manager</title>
 </head>
 <body>
-    <h1>I am part of the base template</h1>
     {% block content %}
     {% endblock %}
+    
+    <!-- materialize js -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+     <!-- custom js -->
+     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+     {% block scripts %}
+     {% endblock %}
 </body>
 </html>
