@@ -12,18 +12,52 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
     <!-- custom css -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css' ) }}" type="text/css">
+    
     {% block styles %}
     {% endblock %}
+    
     <title>Task Manager</title>
 </head>
 <body>
-    {% block content %}
-    {% endblock %}
-    
-    <!-- materialize js -->
+     <header>
+         <!-- top navbar -->
+         <nav class="nav-extended text-shadow light-blue darken-1">
+            <div class="nav-wrapper">
+            <!-- must use url_for method to generate href value as we are calling internal file -->
+            <a href="{{ url_for('get_tasks') }}" class="brand-logo">Task Manager</a>  
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('get_tasks') }}">Home</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">New Task</a></li>
+                <li><a href="#">Manage Categories</a></li>
+                <li><a href="#">Log Out</a></li>
+                <li><a href="#">Log In</a></li>
+                <li><a href="#">Register</a></li> 
+            </ul>
+            </div>
+        </nav>
+        <!-- mobile sidenav -->
+        <ul class="sidenav" id="mobile-demo">
+            <li><h4 class="center-align light-blue-text text-darken-4">Task Manager</h4></li>
+            <li><a href="{{ url_for('get_tasks') }}">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">New Task</a></li>
+            <li><a href="#">Manage Categories</a></li>
+            <li><a href="#">Log Out</a></li>
+            <li><a href="#">Log In</a></li>
+            <li><a href="#">Register</a></li>
+        </ul>
+     </header>
+
+     {% block content %}
+     {% endblock %}
+
+     <!-- materialize js -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-     <!-- custom js -->
+     <!-- custom js inherited for all pages -->
      <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+     <!-- placeholder block for js for specific templates -->
      {% block scripts %}
      {% endblock %}
 </body>
