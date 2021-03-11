@@ -22,7 +22,7 @@ mongo = PyMongo(app)
 @app.route("/")  # "/" refers to default route for app
 @app.route("/get_tasks")  # either URL suffix will trigger get_tasks function
 def get_tasks():
-    tasks = mongo.db.tasks.find()  # access tasks collection in mongo database and return all documents
+    tasks = list(mongo.db.tasks.find())  # access tasks collection in mongo database and return all documents
     return render_template("tasks.html", tasks=tasks)  # pass tasks variable through to the template so it can display this data
 
 
