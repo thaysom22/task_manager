@@ -87,10 +87,23 @@ def login():
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
+    # update username value passed into profile view with username field value from document in db
+    # WHY IS THIS NECESSARY??
     username = mongo.db.users.find_one(
-        {"username": session["user"]})["username"]  # retrieve document with value for username key equal to value for user session key from db
-    return render_template("profile.html", username=username)  # The 'first' username is what the 'profile.html' template is expecting to receive. The 'second' username is the session variable retrieved on line above 
+        {"username": session["user"]})["username"]  #  retrieve document with value for username key equal to value for user session key from db
+    
+    if session["user"]:  
+        return render_template("profile.html", username=username)  # The 'first' username is what the 'profile.html' template is expecting to receive. The 'second' username is the session variable retrieved on line above 
+    
+    return redirect(url_for('login'))
 
+
+@app.route("/logout")
+def logout():
+    # remove user from session cookies
+    flash("You have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
 
 
 # define how and where to run app
