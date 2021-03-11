@@ -4,6 +4,8 @@ from flask import (
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+# import security helper functions from werkzeug security module
+from werkzeug.security import generate_password_hash, check_password_hash
 # when app is deployed on Heroku, path to env.py will not exist
 if os.path.exists("env.py"):
     import env
@@ -23,6 +25,11 @@ def get_tasks():
     tasks = mongo.db.tasks.find()  # access tasks collection in mongo database and return all documents
     return render_template("tasks.html", tasks=tasks)  # pass tasks variable through to the template so it can display this data
 
+
+# route for user registration page
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    return render_template("register.html")
 
 # define how and where to run app
 if __name__ == "__main__":
