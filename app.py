@@ -106,12 +106,32 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/add_task")
+@app.route("/add_task", methods=["GET", "POST"])
 def add_task():
-    # read categries collection from db to generate option for each document
-    categories = list(mongo.db.categories.find().sort("category_name", 1))  # convert from cursor object to list. sort ascending (will be in order added to db by default)
-    return render_template("add_task.html", categories=categories)  # pass context to render template so jinja can access categories variable
+    if request.method != "POST":
+        # read categries collection from db to generate option for each document
+        categories = list(mongo.db.categories.find().sort("category_name", 1))  # convert from cursor object to list. sort ascending (will be in order added to db by default)
+        return render_template("add_task.html", categories=categories)  # pass context to render template so jinja can access categories variable
 
+    print(type(request), request)
+    print(type(request.form), request.form)
+
+    # create dict of data from form
+    # python uses name attributes from form html as keys to store data in db
+    is_urgent = "on" if request.form.get("is_urgent") else "off"
+    task = {
+        "task_name": request.form.get("task_name"),
+        "category_name": request.form.get("category_name"),
+        "task_description": request.form.get("task_description"),
+        "is_urgent": is_urgent,
+        "due_date": request.form.get("due_date"),
+        "created_by": session["user"]  # include username of user in dict sent to db
+    }
+
+    # use insert_one method on tasks collection
+    mongo.db.tasks.insert_one(task)
+    flash("Task Successfully Added")
+    return redirect(url_for('get_tasks'))
 
 # define how and where to run app
 if __name__ == "__main__":
