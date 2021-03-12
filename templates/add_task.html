@@ -15,6 +15,20 @@
                         <label for="task_name">Task Name</label>
                     </div>
                 </div>
+                <!-- category select -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="fas fa-folder-open prefix light-blue-text darken-4"></i>
+                        <select id="category_name" name="category_name" class="validate" required>
+                            <option value="" disabled selected>Choose Category</option>
+                            <!-- dynamically add categories from db. categories variable is a list passed into template by add_task view function -->
+                            {% for category in categories %}
+                                <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="category_name">Task Category</label>
+                    </div>
+                </div>
                 <!-- task description -->
                 <div class="row">
                     <div class="input-field col s12">

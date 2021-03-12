@@ -108,7 +108,9 @@ def logout():
 
 @app.route("/add_task")
 def add_task():
-    return render_template("add_task.html")
+    # read categries collection from db to generate option for each document
+    categories = list(mongo.db.categories.find().sort("category_name", 1))  # convert from cursor object to list. sort ascending (will be in order added to db by default)
+    return render_template("add_task.html", categories=categories)  # pass context to render template so jinja can access categories variable
 
 
 # define how and where to run app

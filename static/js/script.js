@@ -29,3 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
   });
+
+// initialize select
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+});
