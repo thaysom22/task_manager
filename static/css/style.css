@@ -9,3 +9,16 @@
 i.fas {
     padding-left: .5rem;
 }
+
+.btn-small {
+    margin: .25rem;
+}
+
+.collapsible-header .col strong {
+    margin: .25rem;
+    line-height: 42px;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
