@@ -133,6 +133,16 @@ def add_task():
     flash("Task Successfully Added")
     return redirect(url_for('get_tasks'))
 
+
+# task_id argument is passed to view function through url
+@app.route("/edit_task/<task_id>", methods=["GET", "POST"])
+def edit_task(task_id):
+    # read db tasks collection for document with _id value matching task_id argument
+    task = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
+    categories = list(mongo.db.categories.find().sort("category_name", 1))
+    return render_template("edit_task.html", task=task, categories=categories)  # pass context to render template so jinja can access categories variable
+
+
 # define how and where to run app
 if __name__ == "__main__":
     app.run(
