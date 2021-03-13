@@ -113,9 +113,6 @@ def add_task():
         categories = list(mongo.db.categories.find().sort("category_name", 1))  # convert from cursor object to list. sort ascending (will be in order added to db by default)
         return render_template("add_task.html", categories=categories)  # pass context to render template so jinja can access categories variable
 
-    print(type(request), request)
-    print(type(request.form), request.form)
-
     # create dict of data from form
     # python uses name attributes from form html as keys to store data in db
     is_urgent = "on" if request.form.get("is_urgent") else "off"
@@ -137,9 +134,22 @@ def add_task():
 # task_id argument is passed to view function through url
 @app.route("/edit_task/<task_id>", methods=["GET", "POST"])
 def edit_task(task_id):
-    # read db tasks collection for document with _id value matching task_id argument
-    task = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
-    categories = list(mongo.db.categories.find().sort("category_name", 1))
+    if request.method == "POST":
+        is_urgent = "on" if request.form.get("is_urgent") else "off"
+        submit = {
+            "task_name": request.form.get("task_name"),
+            "category_name": request.form.get("category_name"),
+            "task_description": request.form.get("task_description"),
+            "is_urgent": is_urgent,
+            "due_date": request.form.get("due_date"),
+            "created_by": session["user"]  # include username of user in dict sent to db
+        }
+        # use insert_one method on tasks collection
+        mongo.db.tasks.update({"_id": ObjectId(task_id)}, submit)  # collection.update(search for document to update, replacement dict containing edit task form values)
+        flash("Task Successfully Updated")
+    
+    task = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})  # read db tasks collection for document with _id value matching task_id argument
+    categories = list(mongo.db.categories.find().sort("category_name", 1))  # documents in categories collection also required to populate select dropdown on edit task form
     return render_template("edit_task.html", task=task, categories=categories)  # pass context to render template so jinja can access categories variable
 
 
