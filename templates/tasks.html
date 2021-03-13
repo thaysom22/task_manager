@@ -13,12 +13,13 @@
             <div class="col s9 flex-grow-1">
                 <strong>{{ task.task_name }}</strong> : {{ task.due_date }}
                 {% if task.is_urgent == "on" %}
-                <i class="fas fa-exclamation-circle light-blue-text text-lighten-2 tooltipped"
-                    data-position="right" data-tooltip="Urgent"></i>
+                    <i class="fas fa-exclamation-circle light-blue-text text-lighten-2 tooltipped"
+                        data-position="right" data-tooltip="Urgent"></i>
+                {% endif %}
                 <!-- task is pointing to current task in for-loop so task._id will reference the relevant id for each task in the collapsible list -->
                 <a href="" class="waves-effect waves-light btn-small green accent-4 right">Done</a>
                 <a href="{{ url_for('edit_task', task_id=task._id) }}" class="waves-effect waves-light btn-small light-blue lighten-1 right">Edit</a>
-                {% endif %}
+                
             </div>
             
         </div>
