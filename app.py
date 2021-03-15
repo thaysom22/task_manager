@@ -26,6 +26,12 @@ def get_tasks():
     return render_template("tasks.html", tasks=tasks)  # pass tasks variable through to the template so it can display this data
 
 
+@app.route('/search', methods=["GET", "POST"])
+def search():
+    query = request.form.get("query")
+    tasks = list(mongo.db.tasks.find({"$text": {"$search": query}}))  # perform a $search on any $text index of collection using query variable
+    return render_template("tasks.html", tasks=tasks)
+
 # GET and POST methods required for rendering registration page and submitting registration form data to db respectively
 @app.route("/register", methods=["GET", "POST"])
 def register():
