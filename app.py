@@ -165,6 +165,23 @@ def get_categories():
     categories = list(mongo.db.categories.find().sort("category_name", 1))
     return render_template("categories.html", categories=categories)
 
+
+@app.route('/add_category', methods=["GET", "POST"])
+def add_category():
+    if request.method == 'GET':
+        # if add_category route is requested with GET request, just return add_category template
+        return render_template('add_category.html')
+
+    elif request.method == 'POST':
+        # create dict from form values to be written to db. then redirect to get_categories route
+        category = {
+            "category_name": request.form.get("category_name")
+        }
+        mongo.db.categories.insert_one(category)
+        flash("New Category Added")
+        return redirect(url_for('get_categories'))
+
+
 # define how and where to run app
 if __name__ == "__main__":
     app.run(
