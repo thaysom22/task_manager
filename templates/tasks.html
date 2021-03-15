@@ -18,7 +18,7 @@
                 {% endif %}
                 {% if session.user|lower in [task.created_by|lower, "admin"] %}
                 <!-- task is pointing to current task in for-loop so task._id will reference the relevant id for each task in the collapsible list -->
-                    <a href="" class="waves-effect waves-light btn-small green accent-4 right">Done</a>
+                    <a href="{{ url_for('delete_task', task_id=task._id) }}" class="waves-effect waves-light btn-small green accent-4 right">Done</a>
                     <a href="{{ url_for('edit_task', task_id=task._id) }}" class="waves-effect waves-light btn-small light-blue lighten-1 right">Edit</a>
                 {% endif %}
             </div>

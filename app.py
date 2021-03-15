@@ -153,6 +153,12 @@ def edit_task(task_id):
     return render_template("edit_task.html", task=task, categories=categories)  # pass context to render template so jinja can access categories variable
 
 
+@app.route("/delete_task/<task_id>")
+def delete_task(task_id):
+    mongo.db.tasks.remove({"_id": ObjectId(task_id)})
+    flash("Task Successfully Deleted")
+    return redirect(url_for("get_tasks"))
+
 # define how and where to run app
 if __name__ == "__main__":
     app.run(

@@ -36,3 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var instances = M.FormSelect.init(elems);
 });
 
+for (const elem of document.querySelectorAll('.collapsible-header a')) {
+    elem.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+}
